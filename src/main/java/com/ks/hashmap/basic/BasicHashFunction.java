@@ -5,7 +5,7 @@ import com.ks.hashmap.HashFunction;
 public class BasicHashFunction implements HashFunction {
 
     @Override
-    public String hash(Object object) {
-        return null;
+    public int hash(Object object) {
+        return object.hashCode();
     }
 }

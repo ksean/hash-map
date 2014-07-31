@@ -6,13 +6,11 @@ public class BasicKeyValuePair<K, V> implements KeyValuePair<K, V> {
     private K key;
     private V value;
     private KeyValuePair<K, V> next;
-    private String hash;
 
-    public BasicKeyValuePair(K key, V value, KeyValuePair<K, V> next, String hash) {
+    public BasicKeyValuePair(K key, V value, KeyValuePair<K, V> next) {
         this.key = key;
         this.value = value;
         this.next = next;
-        this.hash = hash;
     }
 
     @Override
@@ -31,7 +29,7 @@ public class BasicKeyValuePair<K, V> implements KeyValuePair<K, V> {
     }
 
     @Override
-    public String getHash() {
-        return hash;
+    public void setNext(KeyValuePair<K, V> keyValuePair) {
+        this.next = keyValuePair;
     }
 }

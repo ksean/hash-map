@@ -1,18 +1,21 @@
 package com.ks.hashmap;
 
-import java.util.List;
-
 public interface HashMap<K, V> {
     public int size();
-    public boolean empty();
-    public int buckets();
+
     public float loadFactor();
-    public List<KeyValuePair<K, V>> digest();
+
+    public boolean empty();
+    public boolean hasKey(final K key);
+    public boolean hasValue(final V value);
+
+    public KeyValuePair<K, V>[] table();
+
     public HashFunction hashFunction();
 
-    public void put(K key, V value);
-    public void remove(K key);
-    public V get(K key);
-    public boolean hasKey(K key);
-    public boolean hasValue(V value);
+    public void put(final K key, final V value);
+    public void remove(final K key);
+    public void resize();
+
+    public V get(final K key);
 }

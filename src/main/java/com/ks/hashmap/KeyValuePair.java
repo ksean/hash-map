@@ -4,5 +4,5 @@ public interface KeyValuePair<K, V> {
     public K getKey();
     public V getValue();
     public KeyValuePair getNext();
-    public String getHash();
+    public void setNext(KeyValuePair<K, V> keyValuePair);
 }

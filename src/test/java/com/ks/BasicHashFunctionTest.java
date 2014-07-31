@@ -12,8 +12,8 @@ public class BasicHashFunctionTest {
         String testString = "foo";
         HashFunction hashFunction = new BasicHashFunction();
 
-        String firstHash = hashFunction.hash(testString);
-        String secondHash = hashFunction.hash(testString);
+        int firstHash = hashFunction.hash(testString);
+        int secondHash = hashFunction.hash(testString);
 
         assertEquals(firstHash, secondHash);
     }
