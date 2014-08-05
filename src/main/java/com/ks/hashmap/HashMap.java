@@ -15,7 +15,6 @@ public interface HashMap<K, V> {
 
     public void put(final K key, final V value);
     public void remove(final K key);
-    public void resize();
 
     public V get(final K key);
 }

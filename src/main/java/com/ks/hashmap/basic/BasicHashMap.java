@@ -45,35 +45,76 @@ public class BasicHashMap<K, V> implements HashMap<K, V> {
 
     @Override
     public void put(final K key, final V value) {
+        // Create new key value pair for put
+        BasicKeyValuePair<K, V> basicKeyValuePair = new BasicKeyValuePair<K, V>(key, value, null);
+        int keyIndex;
+
         if (!hasKey(key)) {
             size++;
             resize();
-        }
+            keyIndex = keyIndexFromKey(key);
 
-        BasicKeyValuePair<K, V> basicKeyValuePair = new BasicKeyValuePair<K, V>(key, value, null);
-
-        int keyIndex = keyIndexFromKey(key);
-
-        if (hasKey(key)) {
-            table[keyIndex] = basicKeyValuePair;
-
-        } else if (table[keyIndex] == null) {
-            table[keyIndex] = basicKeyValuePair;
-
+            putInBucket(keyIndex, basicKeyValuePair, table);
         } else {
-            KeyValuePair<K, V> currentKeyValuePair = table[keyIndex];
+            keyIndex = keyIndexFromKey(key);
 
-            while (currentKeyValuePair.getNext() != null) {
-                currentKeyValuePair = currentKeyValuePair.getNext();
+            replaceInBucket(keyIndex, basicKeyValuePair);
+        }
+    }
+
+    private void replaceInBucket(int keyIndex, KeyValuePair<K, V> newKeyValuePair) {
+        KeyValuePair<K, V> startingKeyValuePair = table[keyIndex];
+
+        // Check if the first key value pair matches the new one
+        if (startingKeyValuePair.getKey().equals(newKeyValuePair.getKey())) {
+            // Maintain list consistency
+            if (startingKeyValuePair.getNext() != null) {
+                newKeyValuePair.setNext(startingKeyValuePair.getNext());
             }
 
-            currentKeyValuePair.setNext(basicKeyValuePair);
+            table[keyIndex] = newKeyValuePair;
+
+        // If it doesn't match the first key value pair, iterate through until it is found
+        } else {
+            // Starting initialization to remember the previous key value pair
+            KeyValuePair<K, V> previousKeyValuePair = startingKeyValuePair;
+            KeyValuePair<K, V> nextKeyValuePair = previousKeyValuePair.getNext();
+
+            // This loop should always be broken or else the key didn't exist and won't be put
+            while (nextKeyValuePair != null) {
+                // Check if the next key matches the new key to be put
+                if (nextKeyValuePair.getKey().equals(newKeyValuePair.getKey())) {
+                    // Maintain list consistency
+                    if (nextKeyValuePair.getNext() != null) {
+                        newKeyValuePair.setNext(nextKeyValuePair.getNext());
+                    }
+
+                    // Replace the current key by pointing the previous pair at it
+                    previousKeyValuePair.setNext(newKeyValuePair);
+                    break;
+                } else {
+                    // Reassign the next and previous pairs
+                    KeyValuePair<K, V> temporaryKeyValuePair = nextKeyValuePair;
+                    previousKeyValuePair = nextKeyValuePair;
+                    nextKeyValuePair = temporaryKeyValuePair.getNext();
+                }
+            }
         }
     }
 
     @Override
     public V get(final K key) {
-        return table[keyIndexFromKey(key)].getValue();
+        if (!hasKey(key)) {
+            return null;
+        }
+
+        KeyValuePair<K, V> currentKeyValuePair = table[keyIndexFromKey(key)];
+
+        while (!currentKeyValuePair.getKey().equals(key)) {
+            currentKeyValuePair = currentKeyValuePair.getNext();
+        }
+
+        return currentKeyValuePair.getValue();
     }
 
     @Override
@@ -121,29 +162,48 @@ public class BasicHashMap<K, V> implements HashMap<K, V> {
         size--;
     }
 
-    private int keyIndexFromKey(final K key) {
+    private int keyIndexFromKey(final K key, KeyValuePair<K, V>[] referenceTable) {
         int keyHash = hashFunction.hash(key);
-        return Math.abs(keyHash) % table.length;
+        return Math.abs(keyHash) % referenceTable.length;
     }
 
-    @Override
-    public void resize() {
+    private int keyIndexFromKey(final K key) {
+        return keyIndexFromKey(key, table);
+    }
+
+    private void resize() {
         float currentLoadFactor = loadFactor();
-        int newSize = (int) Math.ceil((double)size/(double)DEFAULT_LOAD_FACTOR);
 
         if (currentLoadFactor > DEFAULT_LOAD_FACTOR || currentLoadFactor == 0) {
+            int newSize = (int) Math.ceil((double)size/(double)DEFAULT_LOAD_FACTOR);
             KeyValuePair<K, V>[] tempTable = (KeyValuePair<K, V>[]) Array.newInstance(table.getClass().getComponentType(), newSize);
 
             int keyIndex;
 
             for (KeyValuePair<K, V> keyValuePair : table) {
                 if (keyValuePair != null) {
-                    keyIndex = keyIndexFromKey(keyValuePair.getKey());
-                    tempTable[keyIndex] = keyValuePair;
+                    keyValuePair.setNext(null);
+                    keyIndex = keyIndexFromKey(keyValuePair.getKey(), tempTable);
+                    putInBucket(keyIndex, keyValuePair, tempTable);
                 }
             }
 
             table = tempTable;
+        }
+    }
+
+    private void putInBucket(int keyIndex, KeyValuePair<K, V> newKeyValuePair, KeyValuePair<K, V>[] referenceTable) {
+        KeyValuePair<K, V> currentKeyValuePair = referenceTable[keyIndex];
+
+        if (currentKeyValuePair == null) {
+            referenceTable[keyIndex] = newKeyValuePair;
+
+        } else {
+            while (currentKeyValuePair.getNext() != null) {
+                currentKeyValuePair = currentKeyValuePair.getNext();
+            }
+
+            currentKeyValuePair.setNext(newKeyValuePair);
         }
     }
 }

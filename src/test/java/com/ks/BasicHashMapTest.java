@@ -192,6 +192,7 @@ public class BasicHashMapTest {
         // Actions
         basicHashMap.put(firstKey, firstValue);
         basicHashMap.put(secondKey, secondValue);
+        basicHashMap.table();
 
         // Assertions
         assertTrue(basicHashMap.get(firstKey).equals(firstValue));
@@ -213,5 +214,22 @@ public class BasicHashMapTest {
 
         // Assertions
         assertEquals(2, basicHashMap.size());
+    }
+
+    @Test
+    public void putOneHundredKeyValuePairsThenGetOneHundredValues() {
+        // Setup
+        int numberOfPairs = 100;
+        BasicHashFunction basicHashFunction = new BasicHashFunction();
+        BasicHashMap<String, Integer> basicHashMap = new BasicHashMap<String, Integer>(basicHashFunction);
+
+        // Actions
+        for (int i = 0; i < numberOfPairs; i++) {
+            basicHashMap.put(String.valueOf(i), i);
+        }
+
+        for (int j = 0; j < numberOfPairs; j++) {
+            assertTrue(basicHashMap.get(String.valueOf(j)).equals(j));
+        }
     }
 }
