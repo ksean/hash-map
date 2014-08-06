@@ -32,4 +32,9 @@ public class BasicKeyValuePair<K, V> implements KeyValuePair<K, V> {
     public void setNext(KeyValuePair<K, V> keyValuePair) {
         this.next = keyValuePair;
     }
+
+    @Override
+    public KeyValuePair<K, V> clone(KeyValuePair<K, V> keyValuePair) {
+        return new BasicKeyValuePair<K, V>(keyValuePair.getKey(), keyValuePair.getValue(), null);
+    }
 }

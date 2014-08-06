@@ -4,6 +4,7 @@ import com.ks.hashmap.HashFunction;
 import com.ks.hashmap.HashMap;
 import com.ks.hashmap.KeyValuePair;
 
+import javax.xml.crypto.dsig.keyinfo.KeyValue;
 import java.lang.reflect.Array;
 
 public class BasicHashMap<K, V> implements HashMap<K, V> {
@@ -30,7 +31,7 @@ public class BasicHashMap<K, V> implements HashMap<K, V> {
 
     @Override
     public float loadFactor() {
-        return (table.length == 0 ? 0 : size/table.length);
+        return (table.length == 0 ? 0 : (float) size/table.length);
     }
 
     @Override
@@ -124,14 +125,20 @@ public class BasicHashMap<K, V> implements HashMap<K, V> {
         }
 
         for (KeyValuePair keyValuePair : table) {
-            do {
-                if (keyValuePair != null && keyValuePair.getKey().equals(key)) {
+            if (keyValuePair != null) {
+                if (keyValuePair.getKey().equals(key)) {
                     return true;
+
+                } else {
+                    while (keyValuePair.getNext() != null) {
+                        if (keyValuePair.getNext().getKey().equals(key)) {
+                            return true;
+                        }
+
+                        keyValuePair = keyValuePair.getNext();
+                    }
                 }
-                if (keyValuePair != null && keyValuePair.getNext() != null) {
-                    keyValuePair = keyValuePair.getNext();
-                }
-            } while (keyValuePair != null && keyValuePair.getNext() != null);
+            }
         }
 
         return false;
@@ -159,6 +166,7 @@ public class BasicHashMap<K, V> implements HashMap<K, V> {
 
     @Override
     public void remove(final K key) {
+        //if (hasKey(key))
         size--;
     }
 
@@ -182,9 +190,21 @@ public class BasicHashMap<K, V> implements HashMap<K, V> {
 
             for (KeyValuePair<K, V> keyValuePair : table) {
                 if (keyValuePair != null) {
-                    keyValuePair.setNext(null);
-                    keyIndex = keyIndexFromKey(keyValuePair.getKey(), tempTable);
-                    putInBucket(keyIndex, keyValuePair, tempTable);
+                    // Take a copy of the current key value pair and wipe the next reference
+                    KeyValuePair<K, V> insertKeyValuePair = keyValuePair.clone(keyValuePair);
+
+                    keyIndex = keyIndexFromKey(insertKeyValuePair.getKey(), tempTable);
+                    putInBucket(keyIndex, insertKeyValuePair, tempTable);
+
+                    while (keyValuePair.getNext() != null) {
+                        KeyValuePair<K, V> nextKeyValuePair = keyValuePair.getNext();
+                        insertKeyValuePair = nextKeyValuePair.clone(nextKeyValuePair);
+
+                        keyIndex = keyIndexFromKey(insertKeyValuePair.getKey(), tempTable);
+                        putInBucket(keyIndex, insertKeyValuePair, tempTable);
+
+                        keyValuePair = keyValuePair.getNext();
+                    }
                 }
             }
 

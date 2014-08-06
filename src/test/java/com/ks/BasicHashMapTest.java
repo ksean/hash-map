@@ -126,7 +126,7 @@ public class BasicHashMapTest {
         basicHashMap.put(testKey, testValue);
 
         // Assertions
-        assertTrue(basicHashMap.get(testKey).equals(testValue));
+        assertEquals((Integer)testValue, basicHashMap.get(testKey));
     }
 
     @Test
@@ -176,7 +176,7 @@ public class BasicHashMapTest {
         basicHashMap.put(testKey, secondValue);
 
         // Assertions
-        assertTrue(basicHashMap.get(testKey).equals(secondValue));
+        assertEquals((Integer) secondValue, basicHashMap.get(testKey));
     }
 
     @Test
@@ -195,7 +195,7 @@ public class BasicHashMapTest {
         basicHashMap.table();
 
         // Assertions
-        assertTrue(basicHashMap.get(firstKey).equals(firstValue));
+        assertEquals((Integer)firstValue, basicHashMap.get(firstKey));
     }
 
     @Test
@@ -228,8 +228,9 @@ public class BasicHashMapTest {
             basicHashMap.put(String.valueOf(i), i);
         }
 
+        // Assertions
         for (int j = 0; j < numberOfPairs; j++) {
-            assertTrue(basicHashMap.get(String.valueOf(j)).equals(j));
+            assertEquals((Integer)j, basicHashMap.get(String.valueOf(j)));
         }
     }
 }
