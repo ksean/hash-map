@@ -63,6 +63,27 @@ public class BasicHashMap<K, V> implements HashMap<K, V> {
         }
     }
 
+    private void removeFromBucket(K key) {
+        int keyIndex = keyIndexFromKey(key);
+
+        if (table[keyIndex].getKey().equals(key)) {
+            table[keyIndex] = table[keyIndex].getNext();
+            return;
+        }
+
+        KeyValuePair<K, V> previous = table[keyIndex];
+        KeyValuePair<K, V> next = previous.getNext();
+        while (next != null) {
+            if (next.getKey().equals(key)) {
+                previous.setNext(next.getNext());
+                return;
+            }
+
+            previous = next;
+            next = next.getNext();
+        }
+    }
+
     private void replaceInBucket(int keyIndex, KeyValuePair<K, V> newKeyValuePair) {
         KeyValuePair<K, V> startingKeyValuePair = table[keyIndex];
 
@@ -166,8 +187,10 @@ public class BasicHashMap<K, V> implements HashMap<K, V> {
 
     @Override
     public void remove(final K key) {
-        //if (hasKey(key))
-        size--;
+        if (hasKey(key)) {
+            size--;
+            removeFromBucket(key);
+        }
     }
 
     private int keyIndexFromKey(final K key, KeyValuePair<K, V>[] referenceTable) {

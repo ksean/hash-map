@@ -233,4 +233,34 @@ public class BasicHashMapTest {
             assertEquals((Integer)j, basicHashMap.get(String.valueOf(j)));
         }
     }
+
+    @Test
+    public void afterRemoveKeyValueDoesNotExist() {
+        // Setup
+        String firstKey = "firstKey";
+        String secondKey = "secondKey";
+        int firstValue = 1;
+        int secondValue = 2;
+        BasicHashFunction basicHashFunction = new BasicHashFunction();
+        BasicHashMap<String, Integer> basicHashMap = new BasicHashMap<String, Integer>(basicHashFunction);
+
+        // Actions
+        basicHashMap.put(firstKey, firstValue);
+        basicHashMap.put(secondKey, secondValue);
+        basicHashMap.remove(firstKey);
+
+        // Assertions
+        assertFalse(basicHashMap.hasValue(firstValue));
+    }
+
+    @Test
+    public void removingMissingKeyDoesNothing() {
+        BasicHashFunction basicHashFunction = new BasicHashFunction();
+        BasicHashMap<String, Integer> basicHashMap = new BasicHashMap<>(basicHashFunction);
+
+        basicHashMap.put("foo", 42);
+        basicHashMap.remove("bar");
+
+        assertTrue(basicHashMap.hasKey("foo"));
+    }
 }
