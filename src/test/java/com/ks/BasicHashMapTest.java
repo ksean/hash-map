@@ -15,7 +15,7 @@ public class BasicHashMapTest {
     public void hasZeroStartingSize() {
         // Setup
         BasicHashFunction basicHashFunction = new BasicHashFunction();
-        BasicHashMap<String, Integer> basicHashMap = new BasicHashMap<String, Integer>(basicHashFunction);
+        BasicHashMap<String, Integer> basicHashMap = new BasicHashMap<>(basicHashFunction);
 
         // Assertions
         assertEquals(0, basicHashMap.size());
@@ -25,7 +25,7 @@ public class BasicHashMapTest {
     public void increasesInSizeAfterPutKeyValuePair() {
         // Setup
         BasicHashFunction basicHashFunction = new BasicHashFunction();
-        BasicHashMap<String, Integer> basicHashMap = new BasicHashMap<String, Integer>(basicHashFunction);
+        BasicHashMap<String, Integer> basicHashMap = new BasicHashMap<>(basicHashFunction);
 
         // Actions
         basicHashMap.put("testKey", 1);
@@ -39,7 +39,7 @@ public class BasicHashMapTest {
         // Setup
         String testKey = "testKey";
         BasicHashFunction basicHashFunction = new BasicHashFunction();
-        BasicHashMap<String, Integer> basicHashMap = new BasicHashMap<String, Integer>(basicHashFunction);
+        BasicHashMap<String, Integer> basicHashMap = new BasicHashMap<>(basicHashFunction);
 
         // Actions
         basicHashMap.put(testKey, 1);
@@ -54,7 +54,7 @@ public class BasicHashMapTest {
         // Setup
         String testKey = "testKey";
         BasicHashFunction basicHashFunction = new BasicHashFunction();
-        BasicHashMap<String, Integer> basicHashMap = new BasicHashMap<String, Integer>(basicHashFunction);
+        BasicHashMap<String, Integer> basicHashMap = new BasicHashMap<>(basicHashFunction);
 
         // Actions
         basicHashMap.put(testKey, 1);
@@ -68,7 +68,7 @@ public class BasicHashMapTest {
     public void hasNoKeyBeforePutKeyValuePair() {
         // Setup
         BasicHashFunction basicHashFunction = new BasicHashFunction();
-        BasicHashMap<String, Integer> basicHashMap = new BasicHashMap<String, Integer>(basicHashFunction);
+        BasicHashMap<String, Integer> basicHashMap = new BasicHashMap<>(basicHashFunction);
 
         // Assertions
         assertFalse(basicHashMap.hasKey("testKey"));
@@ -79,7 +79,7 @@ public class BasicHashMapTest {
         // Setup
         String testKey = "testKey";
         BasicHashFunction basicHashFunction = new BasicHashFunction();
-        BasicHashMap<String, Integer> basicHashMap = new BasicHashMap<String, Integer>(basicHashFunction);
+        BasicHashMap<String, Integer> basicHashMap = new BasicHashMap<>(basicHashFunction);
 
         // Actions
         basicHashMap.put(testKey, 1);
@@ -93,7 +93,7 @@ public class BasicHashMapTest {
     public void hasNoValueBeforePutKeyValuePair() {
         // Setup
         BasicHashFunction basicHashFunction = new BasicHashFunction();
-        BasicHashMap<String, Integer> basicHashMap = new BasicHashMap<String, Integer>(basicHashFunction);
+        BasicHashMap<String, Integer> basicHashMap = new BasicHashMap<>(basicHashFunction);
 
         // Assertions
         assertFalse(basicHashMap.hasValue(1));
@@ -104,7 +104,7 @@ public class BasicHashMapTest {
         // Setup
         int testValue = 1;
         BasicHashFunction basicHashFunction = new BasicHashFunction();
-        BasicHashMap<String, Integer> basicHashMap = new BasicHashMap<String, Integer>(basicHashFunction);
+        BasicHashMap<String, Integer> basicHashMap = new BasicHashMap<>(basicHashFunction);
 
         // Actions
         basicHashMap.put("testKey", testValue);
@@ -120,7 +120,7 @@ public class BasicHashMapTest {
         int testValue = 1;
         String testKey = "testKey";
         BasicHashFunction basicHashFunction = new BasicHashFunction();
-        BasicHashMap<String, Integer> basicHashMap = new BasicHashMap<String, Integer>(basicHashFunction);
+        BasicHashMap<String, Integer> basicHashMap = new BasicHashMap<>(basicHashFunction);
 
         // Actions
         basicHashMap.put(testKey, testValue);
@@ -135,7 +135,7 @@ public class BasicHashMapTest {
         int testValue = 1;
         String testKey = "testKey";
         BasicHashFunction basicHashFunction = new BasicHashFunction();
-        BasicHashMap<String, Integer> basicHashMap = new BasicHashMap<String, Integer>(basicHashFunction);
+        BasicHashMap<String, Integer> basicHashMap = new BasicHashMap<>(basicHashFunction);
 
         // Actions
         basicHashMap.put(testKey, testValue);
@@ -152,7 +152,7 @@ public class BasicHashMapTest {
         int secondValue = 2;
         String testKey = "testKey";
         BasicHashFunction basicHashFunction = new BasicHashFunction();
-        BasicHashMap<String, Integer> basicHashMap = new BasicHashMap<String, Integer>(basicHashFunction);
+        BasicHashMap<String, Integer> basicHashMap = new BasicHashMap<>(basicHashFunction);
 
         // Actions
         basicHashMap.put(testKey, firstValue);
@@ -169,7 +169,7 @@ public class BasicHashMapTest {
         int secondValue = 2;
         String testKey = "testKey";
         BasicHashFunction basicHashFunction = new BasicHashFunction();
-        BasicHashMap<String, Integer> basicHashMap = new BasicHashMap<String, Integer>(basicHashFunction);
+        BasicHashMap<String, Integer> basicHashMap = new BasicHashMap<>(basicHashFunction);
 
         // Actions
         basicHashMap.put(testKey, firstValue);
@@ -187,7 +187,7 @@ public class BasicHashMapTest {
         String firstKey = "firstKey";
         String secondKey = "secondKey";
         BasicHashFunction basicHashFunction = new BasicHashFunction();
-        BasicHashMap<String, Integer> basicHashMap = new BasicHashMap<String, Integer>(basicHashFunction);
+        BasicHashMap<String, Integer> basicHashMap = new BasicHashMap<>(basicHashFunction);
 
         // Actions
         basicHashMap.put(firstKey, firstValue);
@@ -206,7 +206,7 @@ public class BasicHashMapTest {
         String firstKey = "firstKey";
         String secondKey = "secondKey";
         BasicHashFunction basicHashFunction = new BasicHashFunction();
-        BasicHashMap<String, Integer> basicHashMap = new BasicHashMap<String, Integer>(basicHashFunction);
+        BasicHashMap<String, Integer> basicHashMap = new BasicHashMap<>(basicHashFunction);
 
         // Actions
         basicHashMap.put(firstKey, firstValue);
@@ -221,7 +221,7 @@ public class BasicHashMapTest {
         // Setup
         int numberOfPairs = 100;
         BasicHashFunction basicHashFunction = new BasicHashFunction();
-        BasicHashMap<String, Integer> basicHashMap = new BasicHashMap<String, Integer>(basicHashFunction);
+        BasicHashMap<String, Integer> basicHashMap = new BasicHashMap<>(basicHashFunction, numberOfPairs);
 
         // Actions
         for (int i = 0; i < numberOfPairs; i++) {
@@ -242,7 +242,7 @@ public class BasicHashMapTest {
         int firstValue = 1;
         int secondValue = 2;
         BasicHashFunction basicHashFunction = new BasicHashFunction();
-        BasicHashMap<String, Integer> basicHashMap = new BasicHashMap<String, Integer>(basicHashFunction);
+        BasicHashMap<String, Integer> basicHashMap = new BasicHashMap<>(basicHashFunction);
 
         // Actions
         basicHashMap.put(firstKey, firstValue);
@@ -251,16 +251,24 @@ public class BasicHashMapTest {
 
         // Assertions
         assertFalse(basicHashMap.hasValue(firstValue));
+        assertTrue(basicHashMap.hasValue(secondValue));
     }
 
     @Test
     public void removingMissingKeyDoesNothing() {
+        // Setup
+        String firstKey = "firstKey";
+        String secondKey = "secondKey";
+        int testValue = 1;
         BasicHashFunction basicHashFunction = new BasicHashFunction();
         BasicHashMap<String, Integer> basicHashMap = new BasicHashMap<>(basicHashFunction);
 
-        basicHashMap.put("foo", 42);
-        basicHashMap.remove("bar");
+        // Actions
+        basicHashMap.put(firstKey, testValue);
+        basicHashMap.remove(secondKey);
 
-        assertTrue(basicHashMap.hasKey("foo"));
+        // Assertions
+        assertTrue(basicHashMap.hasKey(firstKey));
+        assertTrue(basicHashMap.hasValue(testValue));
     }
 }

@@ -4,7 +4,6 @@ import com.ks.hashmap.HashFunction;
 import com.ks.hashmap.HashMap;
 import com.ks.hashmap.KeyValuePair;
 
-import javax.xml.crypto.dsig.keyinfo.KeyValue;
 import java.lang.reflect.Array;
 
 public class BasicHashMap<K, V> implements HashMap<K, V> {
@@ -17,6 +16,12 @@ public class BasicHashMap<K, V> implements HashMap<K, V> {
     public BasicHashMap(HashFunction hashFunction) {
         this.hashFunction = hashFunction;
         this.table = (KeyValuePair<K, V>[]) EMPTY_TABLE;
+    }
+
+    public BasicHashMap(HashFunction hashFunction, int tableLength) {
+        this.hashFunction = hashFunction;
+        this.table = (KeyValuePair<K, V>[]) EMPTY_TABLE;
+        this.table = (KeyValuePair<K, V>[]) Array.newInstance(table.getClass().getComponentType(), tableLength);
     }
 
     @Override
@@ -47,7 +52,7 @@ public class BasicHashMap<K, V> implements HashMap<K, V> {
     @Override
     public void put(final K key, final V value) {
         // Create new key value pair for put
-        BasicKeyValuePair<K, V> basicKeyValuePair = new BasicKeyValuePair<K, V>(key, value, null);
+        BasicKeyValuePair<K, V> basicKeyValuePair = new BasicKeyValuePair<>(key, value, null);
         int keyIndex;
 
         if (!hasKey(key)) {
