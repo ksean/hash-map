@@ -1,4 +1,6 @@
 Custom hashmap data structure implementation
 =========
 
-Based off of definition provided by http://en.wikipedia.org/wiki/Hash_table
+* Reference: http://en.wikipedia.org/wiki/Hash_table
+
+* Travis CI: https://travis-ci.org/ksean/HashMap
